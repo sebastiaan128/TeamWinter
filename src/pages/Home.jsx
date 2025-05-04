@@ -14,7 +14,7 @@ function Home() {
   const fetchAndUpdateAttacks = async () => {
     for (let tag of clanTags) {
       try {
-        const res = await fetch(`http://localhost:3001/api/clashofclans/war?clanTag=${encodeURIComponent(tag)}`, {
+        const res = await fetch(`https://teamwinter.onrender.com/api/clashofclans/war?clanTag=${encodeURIComponent(tag)}`, {
           method: 'GET',
         });
   
