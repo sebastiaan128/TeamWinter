@@ -8,7 +8,7 @@ function Home() {
   const [attacks, setAttacks] = useState([]);
 
   const clanTags = [
-    "#2GUGPU2CG"
+    "#2GUGPU2CG", "#2GYPYLJ00", "#2JPVV99RP", "#2LU2U00QJ"
   ];
 
   const fetchAndUpdateAttacks = async () => {
