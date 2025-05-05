@@ -14,13 +14,12 @@ function Home() {
   const fetchAndUpdateAttacks = async () => {
     for (let tag of clanTags) {
       try {
-        const res = await fetch(`https://teamwinter.onrender.com/api/clashofclans/war?clanTag=${encodeURIComponent(tag)}`, {
-          method: 'GET',
-        });
+    const res = await fetch(`https://teamwinter.onrender.com/api/clashofclans/war?clanTag=${encodeURIComponent(tag)}`, {
+    method: 'GET',
+  });
   
         if (res.ok) {
           const warData = await res.json();
-          
           if (warData?.clan?.members) {
             for (let member of warData.clan.members) {
               if (member.attacks) {
