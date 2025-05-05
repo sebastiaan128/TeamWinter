@@ -46,8 +46,8 @@ app.get('/api/clashofclans/claninfo', async (req, res) => {
       headers: { Authorization: apiKey },
     });
 
-    const { clanLevel, warWinStreak } = response.data;
-    res.json({ clanLevel, warWinStreak });
+    const { name, description, clanLevel, warWinStreak } = response.data;
+    res.json({ name, description, clanLevel, warWinStreak });
   } catch (error) {
     console.error("Error fetching clan info:", error);
     if (error.response) {

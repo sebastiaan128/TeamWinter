@@ -1,18 +1,22 @@
 import { useEffect, useState } from 'react';
-import { Shield, Trophy, Swords,Users,ShieldCheck } from 'lucide-react';
+import { Shield, Trophy, Swords, Users, ShieldCheck } from 'lucide-react';
 import axios from 'axios';
 
 function Info() {
   const [clanLevel, setClanLevel] = useState(null);
   const [warWinStreak, setWarWinStreak] = useState(null);
+  const [clanName, setClanName] = useState(null);
+  const [clanDescription, setClanDescription] = useState(null);
   const clanTag = '#2LU2U00QJ';
 
   useEffect(() => {
     const fetchClanInfo = async () => {
       try {
-          const res = await axios.get(`https://teamwinter.onrender.com/api/clashofclans/claninfo?clanTag=${encodeURIComponent(clanTag)}`);
+        const res = await axios.get(`https://teamwinter.onrender.com/api/clashofclans/claninfo?clanTag=${encodeURIComponent(clanTag)}`);
         setClanLevel(res.data.clanLevel);
         setWarWinStreak(res.data.warWinStreak);
+        setClanName(res.data.name); 
+        setClanDescription(res.data.description); 
       } catch (err) {
         console.error('Error fetching clan info:', err);
       }
@@ -21,36 +25,36 @@ function Info() {
     fetchClanInfo();
   }, []);
 
-    return (
-      <>
-    <div className="bg-primary text-white d-flex flex-column justify-content-center align-items-center text-center px-3 py-5">
-      <div className="d-flex align-items-center gap-2 mb-3">
-        <Shield />
-        <h1 className="fw-bold m-0">Team Winter</h1>
-      </div>
-      <p className="lead mb-4">
-        A legendary Clash of Clans clan dominating the battlefield with icy precision
-      </p>
-      <div className="d-flex flex-wrap justify-content-center gap-3 mb-4">
-        {clanLevel !== null && (
-          <div className="bg-opacity-25 bg-light text-white px-3 py-2 rounded-pill d-flex align-items-center gap-2">
-            <Trophy /> Level {clanLevel} Clan
-          </div>
-        )}
-        {warWinStreak !== null && (
-          <div className="bg-opacity-25 bg-light text-white px-3 py-2 rounded-pill">
-            War Win Streak: {warWinStreak}
-          </div>
-        )}
-        <div className="bg-opacity-25 bg-light text-white px-3 py-2 rounded-pill">
-          {clanTag}
+  return (
+    <>
+      <div className="bg-primary text-white d-flex flex-column justify-content-center align-items-center text-center px-3 py-5">
+        <div className="d-flex align-items-center gap-2 mb-3">
+          <Shield />
+          <h1 className="fw-bold m-0">{clanName || 'Team Winter'}</h1> 
         </div>
+        <p className="lead mb-4">
+          {clanDescription}
+        </p>
+        <div className="d-flex flex-wrap justify-content-center gap-3 mb-4">
+          {clanLevel !== null && (
+            <div className="bg-opacity-25 bg-light text-white px-3 py-2 rounded-pill d-flex align-items-center gap-2">
+              <Trophy /> Level {clanLevel} Clan
+            </div>
+          )}
+          {warWinStreak !== null && (
+            <div className="bg-opacity-25 bg-light text-white px-3 py-2 rounded-pill">
+              War Win Streak: {warWinStreak}
+            </div>
+          )}
+          <div className="bg-opacity-25 bg-light text-white px-3 py-2 rounded-pill">
+            {clanTag}
+          </div>
+        </div>
+        <button className="btn btn-light fw-semibold px-4 py-2 rounded-pill">
+          Join Our Clan
+        </button>
       </div>
-      <button className="btn btn-light fw-semibold px-4 py-2 rounded-pill">
-        Join Our Clan
-      </button>
-    </div>
-  
+
       <div className="container py-5">
         <h2 className="text-center fw-bold mb-4">About Team Winter</h2>
         <div className="row g-4">
