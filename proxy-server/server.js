@@ -46,8 +46,8 @@ app.get('/api/clashofclans/claninfo', async (req, res) => {
       headers: { Authorization: apiKey },
     });
 
-    const { name, description, clanLevel, warWinStreak } = response.data;
-    res.json({ name, description, clanLevel, warWinStreak });
+    const { name, description, clanLevel, warWinStreak, clanWarLeague, clanWarWins } = response.data;
+    res.json({ name, description, clanLevel, warWinStreak, clanWarLeague, clanWarWins });
   } catch (error) {
     console.error("Error fetching clan info:", error);
     if (error.response) {
@@ -56,6 +56,27 @@ app.get('/api/clashofclans/claninfo', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch clan info' });
   }
 });
+
+
+app.get('/api/clashofclans/warlog', async (req, res) => {
+  const { clanTag } = req.query;
+
+  if (!clanTag) {
+    return res.status(400).json({ error: 'Missing clanTag query parameter' });
+  }
+
+  try {
+    const response = await axios.get(`https://api.clashofclans.com/v1/clans/${encodeURIComponent(clanTag)}/warlog?limit=3`, {
+      headers: { Authorization: apiKey },
+    });
+
+    res.json(response.data.items);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch war log' });
+  }
+});
+
+
 
 app.listen(port, () => {
   console.log(`Proxy server running on http://localhost:${port}`);

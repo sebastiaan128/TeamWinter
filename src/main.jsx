@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Attacks from './pages/Attacks';
 import Home from './pages/Home';
-import Info from './pages/Info';
 import Layout from './components/Layout';
 import './index.scss';
 
@@ -11,7 +11,7 @@ root.render(
     <Routes>
     <Route element={<Layout></Layout>}>
         <Route path='/' element={<Home />} />
-        <Route path='/info' element={<Info />} />
+        <Route path='/attacks' element={<Attacks />} />
     </Route>
     </Routes>
   </BrowserRouter>
