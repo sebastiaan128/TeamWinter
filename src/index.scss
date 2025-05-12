@@ -1,26 +1,35 @@
-$primary: #2AB0E3;
-@import 'bootstrap/dist/css/bootstrap.min.css';
-
+$primary: #1d4ed8;
+$secondary: #1e3a8a;
+$font-family-base: "Ubuntu", sans-serif;
+@import "bootstrap/scss/bootstrap.scss";
 
 #app {
-    min-height: calc(vh100 - 57px);
+  min-height: calc(vh100 - 57px);
 }
 
 .text-primary {
-    color: $primary !important;
+  color: $primary !important;
 }
 
-header {
-    background-color: $primary;
-    height: 400px;
-    align-content: center;
-    color: white;
+.header {
+  height: 500px;
 }
 
-.tabs { 
-width: 10%;
+.header-gradient {
+  background: linear-gradient(to top, $primary, $secondary);
 }
 
 .WarCard {
-    background-color: #1e40af80;
+  background-color: #1e40af80;
+}
+.trophy-background {
+  justify-self: center;
+  width: 79%;
+  border-radius: 10px;
+}
+
+.achievements-card,
+.info-cards {
+  width: 80%;
+  justify-self: center;
 }
