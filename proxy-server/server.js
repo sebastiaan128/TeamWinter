@@ -91,7 +91,33 @@ app.get('/api/clashofclans/warlog', async (req, res) => {
   }
 });
 
+app.get('/api/clashofclans/players', async (req, res) => {
+  const { playertag } = req.query;
 
+  if (!playertag) {
+    return res.status(400).json({ error: 'Missing playertag query parameter' });
+  }
+
+  try {
+    const response = await axios.get(`https://api.clashofclans.com/v1/players/${encodeURIComponent(playertag)}`, {
+      headers: { Authorization: apiKey },
+    });
+
+    const { townHallLevel, expLevel } = response.data;
+    res.json({ townHallLevel, expLevel });
+  } catch (error) {
+    console.error("Error fetching player info:", error);
+    if (error.response) {
+      console.error("API error response:", error.response.data);
+    }
+
+    if (error.response?.status === 403) {
+      return res.status(403).json({ error: 'Forbidden: Check API key or permissions' });
+    }
+
+    res.status(500).json({ error: 'Failed to fetch player info' });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Proxy server running on http://localhost:${port}`);
