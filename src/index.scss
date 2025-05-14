@@ -2,35 +2,41 @@ $primary: #1d4ed8;
 $secondary: #1e3a8a;
 $card: #EFF6FF;
 $leiders-tabs: #3C82F6;
+$requirement-card: #375BC4;
+$footer: #0F172A;
 $font-family-base: "Ubuntu", sans-serif;
+
 @import "bootstrap/scss/bootstrap.scss";
 
 #app {
   min-height: calc(vh100 - 57px);
 }
 
-.text-primary {
-  color: $primary !important;
+.bg-footer {
+  background-color: $footer;
 }
 
 .bg-card {
   background-color: $card !important;
 }
+
 .header {
   height: 500px;
 }
 
-.header-gradient {
+.blue-gradient {
   background: linear-gradient(to top, $primary, $secondary);
 }
 
 .WarCard {
   background-color: #1e40af80;
 }
+
 .trophy-background {
   justify-self: center;
   width: 79%;
   border-radius: 10px;
+  margin: 10px;
 }
 
 .achievements-card,
@@ -39,22 +45,119 @@ $font-family-base: "Ubuntu", sans-serif;
   justify-self: center;
 }
 
-.icon-background{
-width: fit-content;
-    background-color: #DBEAFD;
-    padding: 10px;
-    border-radius: 10px;
+.icon-background {
+  width: fit-content;
+  background-color: #DBEAFD;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 .leiders-cards {
-height: 175px;
-    object-fit: fill;}
+  height: 175px;
+  object-fit: fill;
+}
 
 .leiders-tabs {
-position: absolute;
-    right: 10px;
-    top: 10px;
-    color: white;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: white;
+  background: $leiders-tabs;
+}
 
-    background: $leiders-tabs;
+.requirement-card {
+  justify-items: center;
+  background-color: $requirement-card;
+}
+
+.requirement-row {
+  gap: 10px;
+}
+
+.checkmark {
+  color: #49DE80;
+  margin-right: 5px;
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.card-rotate {
+  position: relative;
+  padding: 2px;
+  border-radius: 1rem;
+  z-index: 0;
+}
+
+.card-rotate::before,
+.card-rotate::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  background: conic-gradient(from var(--angle), transparent 10%, rgb(0, 217, 255));
+  z-index: -1;
+  animation: spin 4s linear infinite;
+}
+
+.card-rotate::before {
+  filter: blur(1.5rem);
+  opacity: 0.5;
+}
+
+.card-inner {
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: $requirement-card;
+}
+
+@keyframes spin {
+  from {
+    --angle: 0deg;
+  }
+  to {
+    --angle: 360deg;
+  }
+}
+
+@media (min-width: 860px) {
+  .requirement {
+    height: 600px;
+    align-content: center;
+  }
+}
+
+@media (max-width: 1023px) {
+  .info-cards,
+  .achievements-card {
+    width: 100%;
+    padding: 10px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 768px) {
+  .requirement-row,
+  .trophy-background,
+  .achievements-card {
+    padding: 10px;
+    width: auto;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .trophy-background {
+    width: 95%;
+  }
+}
+
+@media (min-width: 1024px) {
+.container-fluid {
+    width: auto;
+}
 }
