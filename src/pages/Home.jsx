@@ -3,22 +3,31 @@ import { Shield, Trophy, Swords, Users, ShieldCheck } from "lucide-react";
 import axios from "axios";
 import TeamWinterLogo from "../assets/TeamWinter.png";
 
-function Home() {
-  const [clanLevel, setClanLevel] = useState(null);
-  const [warWinStreak, setWarWinStreak] = useState(null);
-  const [clanName, setClanName] = useState(null);
-  const [clanDescription, setClanDescription] = useState(null);
-  const [clanWarLeague, setClanWarLeague] = useState(null);
-  const [clanWarWins, setClanWarWins] = useState(null);
-  const [warLog, setWarLog] = useState([]);
+const initialLeaders = [
+  { name: "Winteriscoming", role: "Oprichter", Profile: "src/assets/Winteriscoming-profiel.png", tag: "#2GGRUYV9P" },
+  { name: "Rens", role: "Leider", Profile: "src/assets/Rens-profiel.png" },
+  { name: "Mootje", role: "Leider", Profile: "src/assets/Mootje-profiel.png" },
+  { name: "Leeuwerik", role: "Leider", Profile: "src/assets/Leeuwerik-profiel.png" },
+  { name: "LexengeI", role: "Leider", Profile: "src/assets/LexengeI-profiel.png", tag: "#8JCPULCQ" },
+];
 
+function Home() {
+    const [clanLevel, setClanLevel] = useState(null);
+    const [warWinStreak, setWarWinStreak] = useState(null);
+    const [clanName, setClanName] = useState(null);
+    const [clanDescription, setClanDescription] = useState(null);
+    const [clanWarLeague, setClanWarLeague] = useState(null);
+    const [clanWarWins, setClanWarWins] = useState(null);
+    const [warLog, setWarLog] = useState([]);
+    const [leaders, setLeaders] = useState(initialLeaders);
+    
   const clanTag = "#2LU2U00QJ";
 
   useEffect(() => {
     const fetchClanInfo = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3001/api/clashofclans/claninfo?clanTag=${encodeURIComponent(
+          `https://teamwinter.onrender.com/api/clashofclans/claninfo?clanTag=${encodeURIComponent(
             clanTag
           )}`
         );
@@ -36,7 +45,7 @@ function Home() {
     const fetchWarLog = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3001/api/clashofclans/warlog?clanTag=${encodeURIComponent(
+          `https://teamwinter.onrender.com/api/clashofclans/warlog?clanTag=${encodeURIComponent(
             clanTag
           )}`
         );
@@ -46,8 +55,38 @@ function Home() {
       }
     };
 
+    const fetchPlayerInfo = async () => {
+  try {
+    const requests = leaders
+      .filter((leader) => leader.tag)
+      .map((leader) =>
+        axios.get(
+          `https://teamwinter.onrender.com/api/clashofclans/players?playertag=${encodeURIComponent(leader.tag)}`
+        )
+      );
+
+    const responses = await Promise.all(requests);
+    const updatedLeaders = leaders.map((leader) => {
+      const response = responses.find((res) => res.data.name === leader.name);
+      if (response) {
+        return {
+          ...leader,
+          thLevel: response.data.townHallLevel,
+          expLevel: response.data.expLevel,
+        };
+      }
+      return leader;
+    });
+
+    setLeaders(updatedLeaders);
+  } catch (err) {
+    console.error("Error fetching Player info:", err);
+  }
+};
+
     fetchClanInfo();
     fetchWarLog();
+    fetchPlayerInfo();
   }, []);
 
   return (
@@ -87,8 +126,8 @@ function Home() {
         <h2 className="text-center fw-bold mb-4">❄️ Team Winter ❄️</h2>
         <div className="row g-4">
           <div className="col-md-4">
-            <div className="p-4 bg-light rounded shadow-sm h-100">
-              <div className="mb-3 text-primary">
+            <div className="p-4 bg-card rounded shadow-sm h-100">
+              <div className="mb-3 text-primary icon-background">
                 <Swords size={28} />
               </div>
               <h5 className="fw-bold">War</h5>
@@ -100,8 +139,8 @@ function Home() {
             </div>
           </div>
           <div className="col-md-4">
-            <div className="p-4 bg-light rounded shadow-sm h-100">
-              <div className="mb-3 text-primary">
+            <div className="p-4 bg-card rounded shadow-sm h-100">
+              <div className="mb-3 text-primary icon-background">
                 <Users size={28} />
               </div>
               <h5 className="fw-bold">Community</h5>
@@ -114,8 +153,8 @@ function Home() {
             </div>
           </div>
           <div className="col-md-4">
-            <div className="p-4 bg-light rounded shadow-sm h-100">
-              <div className="mb-3 text-primary">
+            <div className="p-4 bg-card rounded shadow-sm h-100">
+              <div className="mb-3 text-primary icon-background">
                 <ShieldCheck size={28} />
               </div>
               <h5 className="fw-bold">Competitief</h5>
@@ -130,10 +169,14 @@ function Home() {
           </div>
         </div>
 
-        <div className="mt-5 p-4 rounded bg-light bg-opacity-50 shadow-sm">
+        <div className="bg-card mt-5 p-4 rounded bg-light bg-opacity-50 shadow-sm">
           <h5 className="fw-bold mb-2">Onze clanfilosofie</h5>
           <p className="mb-0">
-            Onze filosofie draait om samenwerking, discipline en continu leren. We geloven dat succes in Clan Wars niet alleen van individuele kracht afhangt, maar van hoe goed we als team presteren. Door strategie, communicatie en gezamenlijke inzet behalen we elke overwinning samen.
+            Onze filosofie draait om samenwerking, discipline en continu leren.
+            We geloven dat succes in Clan Wars niet alleen van individuele
+            kracht afhangt, maar van hoe goed we als team presteren. Door
+            strategie, communicatie en gezamenlijke inzet behalen we elke
+            overwinning samen.
           </p>
         </div>
       </div>
@@ -142,7 +185,8 @@ function Home() {
         <div className=" text-center">
           <h2 className="fw-bold mb-2">Clanprestaties</h2>
           <p className="text-muted mb-4">
-          Onze clan heeft indrukwekkende mijlpalen bereikt door samenwerking en toewijding.
+            Onze clan heeft indrukwekkende mijlpalen bereikt door samenwerking
+            en toewijding.
           </p>
           <div className="row g-4 achievements-card justify-content-center">
             <div className="col-6 col-md-3">
@@ -194,6 +238,37 @@ function Home() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </div>
+      <div className="bg-light py-5">
+        <div className="container text-center">
+          <h2 className="fw-bold mb-2">Ons Leiderschap</h2>
+          <p className="text-muted mb-5">
+            Maak kennis met het elite team dat onze clan naar de overwinning
+            leidt.
+          </p>
+          <div className="row g-4 justify-content-center">
+            {leaders.map((leader, index) => (
+              <div key={index} className="col-sm-10 col-md-6 col-lg-4">
+                <div className="card border-0 shadow-sm h-100">
+                  <p className="card-text small leiders-tabs text-sm py-1 px-2 rounded-pill">
+                    {leader.role}
+                  </p>
+                  <img
+                    src={leader.Profile}
+                    alt={leader.name}
+                    className="card-img-top rounded-top leiders-cards"
+                  />
+                  <div className="card-body text-center">
+                    <h5 className="card-title fw-bold mb-1">{leader.name}</h5>
+                    <p className="text-muted mb-2">
+                      TH{leader.thLevel} | Level {leader.expLevel}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

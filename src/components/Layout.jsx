@@ -18,10 +18,10 @@ function Layout() {
                             <Swords className="text-primary" />Team Winter
                         </Navbar.Brand>
                         <Nav className="d-flex gap-3 justify-content-center">
-                            <Nav.Link href="/Attacks" className={currentPath === "/Attacks" ? "text-black fw-bold" : ""}>Info</Nav.Link>
-                            <Nav.Link href="/Clans" className={currentPath === "/Clans" ? "text-black fw-bold" : ""}>Clans</Nav.Link>
-                            <Nav.Link href="/Stats" className={currentPath === "/Stats" ? "text-black fw-bold" : ""}>Stats</Nav.Link>
-                            <Nav.Link href="/Join" className={currentPath === "/Join" ? "text-black fw-bold" : ""}>Join</Nav.Link>
+                            <Nav.Link href="/attacks" className={currentPath === "/attacks" ? "text-black fw-bold" : ""}>Info</Nav.Link>
+                            <Nav.Link href="/clans" className={currentPath === "/clans" ? "text-black fw-bold" : ""}>Clans</Nav.Link>
+                            <Nav.Link href="/stats" className={currentPath === "/stats" ? "text-black fw-bold" : ""}>Stats</Nav.Link>
+                            <Nav.Link href="/join" className={currentPath === "/join" ? "text-black fw-bold" : ""}>Join</Nav.Link>
                         </Nav>
                     </div>
                 </Navbar.Collapse>

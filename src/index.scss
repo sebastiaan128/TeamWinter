@@ -1,5 +1,7 @@
 $primary: #1d4ed8;
 $secondary: #1e3a8a;
+$card: #EFF6FF;
+$leiders-tabs: #3C82F6;
 $font-family-base: "Ubuntu", sans-serif;
 @import "bootstrap/scss/bootstrap.scss";
 
@@ -11,6 +13,9 @@ $font-family-base: "Ubuntu", sans-serif;
   color: $primary !important;
 }
 
+.bg-card {
+  background-color: $card !important;
+}
 .header {
   height: 500px;
 }
@@ -32,4 +37,24 @@ $font-family-base: "Ubuntu", sans-serif;
 .info-cards {
   width: 80%;
   justify-self: center;
+}
+
+.icon-background{
+width: fit-content;
+    background-color: #DBEAFD;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.leiders-cards {
+height: 175px;
+    object-fit: fill;}
+
+.leiders-tabs {
+position: absolute;
+    right: 10px;
+    top: 10px;
+    color: white;
+
+    background: $leiders-tabs;
 }
